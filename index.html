@@ -1,0 +1,3345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymhouse - Push-Up Challenge</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Gymhouse">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Gymhouse">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="msapplication-TileColor" content="#FF6B35">
+    
+    <!-- PWA Links -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="/images/icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icon-16x16.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Gymhouse Brand Colors */
+            --black: #000000;
+            --pure-black: #0A0A0A;
+            --dark-gray: #1A1A1A;
+            --medium-gray: #2D2D2D;
+            --light-gray: #4A4A4A;
+            --primary-orange: #FF6B35;
+            --orange-light: #FF8C69;
+            --orange-dark: #E55A2B;
+            --beige: #D4C4B0;
+            --light-beige: #E8DDD3;
+            --white: #FFFFFF;
+            --off-white: #FAFAFA;
+            --card-bg: #FFFFFF;
+            --card-shadow: rgba(0, 0, 0, 0.1);
+            
+            /* Accent Colors */
+            --success-green: #00B67A;
+            --error-red: #DC2626;
+            --warning-amber: #F59E0B;
+            --info-blue: #3B82F6;
+
+            /* Typography */
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-xxl: 48px;
+            --spacing-xxxl: 64px;
+
+            /* Border Radius */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-xxl: 24px;
+            --radius-full: 9999px;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(180deg, var(--pure-black) 0%, var(--dark-gray) 100%);
+            color: var(--white);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        .display {
+            font-size: 64px;
+            line-height: 72px;
+            letter-spacing: -0.04em;
+            font-weight: 900;
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 56px;
+            letter-spacing: -0.03em;
+            font-weight: 800;
+            margin-bottom: var(--spacing-md);
+        }
+
+        h2 {
+            font-size: 36px;
+            line-height: 44px;
+            letter-spacing: -0.02em;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        h3 {
+            font-size: 28px;
+            line-height: 36px;
+            letter-spacing: -0.01em;
+            font-weight: 600;
+        }
+
+        .body-large {
+            font-size: 18px;
+            line-height: 28px;
+        }
+
+        .body {
+            font-size: 16px;
+            line-height: 24px;
+        }
+
+        .small {
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .caption {
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .dumbbell-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--black);
+        }
+        
+        /* Compact Brand Header */
+        .brand-header {
+            display: flex;
+            justify-content: center;
+            padding: var(--spacing-md) 0;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .logo-compact {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            opacity: 0.8;
+        }
+        
+        .logo-text-small {
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--white);
+        }
+        
+        .logo-icon-small {
+            width: 20px;
+            height: 20px;
+            background: var(--beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dumbbell-icon-small {
+            width: 12px;
+            height: 12px;
+            fill: var(--black);
+        }
+
+        /* Layout Components */
+        .container {
+            flex: 1;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            transform: translateX(0);
+            animation: slideInFromRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .screen.slide-left {
+            transform: translateX(-100%);
+        }
+
+        .screen.slide-right {
+            transform: translateX(100%);
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .header {
+            padding: var(--spacing-xl) 0;
+            text-align: center;
+        }
+
+        .header h2 {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .header .date {
+            color: var(--light-gray);
+            font-weight: 300;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-md);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--card-shadow);
+            color: var(--black);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            opacity: 1;
+        }
+
+        /* Time Challenge Card */
+        .time-challenge-card {
+            background: linear-gradient(135deg, var(--card-bg), var(--off-white));
+            border: 2px solid var(--primary-orange);
+            margin-bottom: var(--spacing-lg);
+            animation: shimmer 3s ease-in-out infinite;
+            color: var(--black);
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+
+        .time-challenge-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .time-challenge-title {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .time-challenge-icon {
+            font-size: 32px;
+        }
+
+        .time-challenge-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .time-challenge-bonus {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary-orange);
+        }
+
+        .time-challenge-desc {
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .time-challenge-timer {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--warning-amber);
+        }
+
+        .time-challenge-inactive {
+            opacity: 0.5;
+            border-color: var(--light-gray);
+        }
+
+
+        /* Points Display */
+        .points-display {
+            position: fixed;
+            top: var(--spacing-lg);
+            left: var(--spacing-lg);
+            background: var(--dark-gray);
+            border: 2px solid var(--beige);
+            border-radius: var(--radius-full);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            z-index: 100;
+            animation: slideInLeft 0.5s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .points-icon {
+            font-size: 20px;
+        }
+
+        .points-value {
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .points-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--primary-orange);
+            color: var(--white);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 24px;
+            z-index: 2001;
+            animation: pointsPop 1s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes pointsPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-50px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--radius-full);
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 52px;
+            min-width: 44px;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(0);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+        
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            box-shadow: none !important;
+            filter: none !important;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: none !important;
+            filter: none !important;
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px) scale(0.98);
+            transition-duration: 0.1s;
+        }
+        
+        #onboarding-continue {
+            padding: var(--spacing-lg) var(--spacing-xl);
+            font-size: 18px;
+            font-weight: 600;
+            max-width: 280px;
+            width: calc(100% - var(--spacing-lg));
+            height: 56px;
+            border-radius: var(--radius-xxl);
+        }
+
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-orange);
+            border: 2px solid var(--primary-orange);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-orange);
+            color: var(--white);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-icon {
+            width: 56px;
+            height: 56px;
+            padding: 0;
+        }
+
+        .btn-large {
+            width: 120px;
+            height: 120px;
+            font-size: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            position: relative;
+            color: var(--white);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .btn-large:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(255, 107, 53, 0.4);
+        }
+        
+        .btn-large:active {
+            transform: scale(0.95);
+            transition-duration: 0.1s;
+        }
+
+        .btn-large::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 53, 0.3) 0%, transparent 70%);
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 0;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Onboarding */
+        .onboarding-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: var(--spacing-xxl) 0 var(--spacing-xl) 0;
+            min-height: 60vh;
+        }
+
+        .onboarding-icon {
+            font-size: 80px;
+            margin-bottom: var(--spacing-xl);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            width: 100%;
+        }
+
+        .option-card {
+            background: var(--card-bg);
+            border: 2px solid var(--light-gray);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xl);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            color: var(--black);
+            box-shadow: 0 4px 12px var(--card-shadow);
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .option-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, var(--primary-orange) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .option-card:hover {
+            border-color: var(--primary-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.2);
+        }
+
+        .option-card.active {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            border-color: var(--primary-orange);
+            color: var(--white);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+        }
+
+        .option-card.active .small {
+            color: var(--white);
+        }
+
+        /* Level Selector */
+        .level-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--spacing-xl);
+            margin-top: var(--spacing-xl);
+        }
+
+        .level-display {
+            text-align: center;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-sm);
+            background: var(--medium-gray);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--beige);
+            width: 32px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--spacing-lg) 0;
+        }
+
+        /* Challenge Screen */
+        .challenge-card {
+            text-align: center;
+            padding: var(--spacing-xxl);
+            background: linear-gradient(135deg, var(--dark-gray) 0%, var(--medium-gray) 100%);
+        }
+
+        .sets-container {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .set-indicator {
+            width: 40px;
+            height: 6px;
+            background: var(--medium-gray);
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+        }
+
+        .set-indicator.completed {
+            background: var(--beige);
+        }
+
+        .set-indicator.active {
+            background: var(--beige);
+            animation: blink 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .progress-circle-container {
+            position: relative;
+            width: 240px;
+            height: 240px;
+            margin: 0 auto var(--spacing-xl);
+        }
+
+        .progress-circle {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: var(--pure-black);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .progress-circle .display {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .progress-circle .display.counting {
+            animation: countBounce 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            color: var(--primary-orange);
+        }
+        
+        @keyframes countBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .progress-ring {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--primary-orange) var(--progress, 0deg),
+                var(--medium-gray) var(--progress, 0deg)
+            );
+            -webkit-mask: radial-gradient(circle at center, transparent 100px, black 110px);
+            mask: radial-gradient(circle at center, transparent 100px, black 110px);
+            filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.4));
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring.animated {
+            animation: progressRingGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressRingGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 25px rgba(255, 107, 53, 0.7));
+            }
+        }
+
+        .count-button {
+            margin: var(--spacing-lg) auto;
+            font-weight: 900;
+            box-shadow: 0 10px 30px rgba(212, 196, 176, 0.3);
+        }
+
+        .count-button:active {
+            transform: scale(0.95);
+        }
+
+        .completion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--beige);
+            color: var(--pure-black);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            margin-top: var(--spacing-md);
+            animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Rest Timer */
+        .rest-timer {
+            display: none;
+        }
+
+        .rest-timer.active {
+            display: block !important;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timer-ring-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        .timer-ring {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .timer-ring-path-bg {
+            fill: none;
+            stroke: var(--medium-gray);
+            stroke-width: 8;
+        }
+
+        .timer-ring-path-progress {
+            fill: none;
+            stroke: var(--primary-orange);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.1s linear;
+        }
+
+        .timer-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--primary-orange);
+            text-align: center;
+        }
+        
+        .timer-display.pulse {
+            animation: timerPulse 1s ease-in-out;
+        }
+        
+        @keyframes timerPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .timer-message {
+            text-align: center;
+            color: var(--light-gray);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Achievement Modal */
+        .achievement-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xxl);
+            text-align: center;
+            z-index: 2000;
+            min-width: 300px;
+            animation: achievementPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3);
+        }
+
+        @keyframes achievementPop {
+            to {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .achievement-icon {
+            font-size: 64px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .achievement-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .achievement-desc {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Progress Screen */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: var(--black);
+            box-shadow: 0 4px 12px var(--card-shadow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            animation: expandWidth 1s ease-out forwards;
+        }
+
+        @keyframes expandWidth {
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .stat-card .icon {
+            font-size: 32px;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .calendar-day.completed {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+        }
+
+        .calendar-day.missed {
+            background: var(--error-red);
+            color: var(--white);
+        }
+
+        .calendar-day.today {
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        .calendar-day.future {
+            background: var(--off-white);
+            color: var(--light-gray);
+            border: 1px solid var(--light-gray);
+        }
+
+        .calendar-day:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .calendar-day .check {
+            position: absolute;
+            bottom: 2px;
+            font-size: 10px;
+        }
+
+        /* Achievement Gallery */
+        .achievements-section {
+            margin-top: var(--spacing-xl);
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        .achievement-badge {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            color: var(--black);
+            box-shadow: 0 2px 8px var(--card-shadow);
+            border: 1px solid var(--light-gray);
+        }
+
+        .achievement-badge.unlocked {
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
+        }
+
+        .achievement-badge.locked {
+            opacity: 0.5;
+        }
+
+        .achievement-badge:hover {
+            transform: translateY(-4px);
+        }
+
+        .badge-icon {
+            font-size: 32px;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .badge-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        /* Profile Screen */
+        .profile-header {
+            text-align: center;
+            padding: var(--spacing-xxl);
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 48px;
+            color: var(--white);
+            font-weight: 900;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-orange) 0%, transparent 50%);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+        }
+
+        .achievement-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-lg);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            color: var(--black);
+            box-shadow: 0 4px 12px var(--card-shadow);
+        }
+
+        .achievement-card h1 {
+            color: var(--primary-orange);
+        }
+
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            color: var(--black);
+            box-shadow: 0 2px 8px var(--card-shadow);
+        }
+
+        .settings-item:hover {
+            border-color: var(--primary-orange);
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.2);
+        }
+
+        .settings-item.danger {
+            color: var(--error-red);
+            margin-top: var(--spacing-md);
+        }
+
+        .settings-item .icon {
+            font-size: 24px;
+        }
+
+        .settings-item .chevron {
+            margin-left: auto;
+            font-size: 20px;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--pure-black);
+            border-top: 1px solid var(--medium-gray);
+            padding: var(--spacing-sm) 0;
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-around;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            padding: var(--spacing-md);
+            cursor: pointer;
+            color: var(--light-gray);
+            transition: all 0.2s ease;
+            position: relative;
+            min-height: 60px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary-orange);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-orange);
+        }
+
+        .nav-item.active {
+            color: var(--primary-orange);
+        }
+
+        .nav-item.active::before {
+            transform: scaleX(1);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark-gray);
+            border-radius: var(--radius-xxl);
+            padding: var(--spacing-xxl);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: modalSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid var(--beige);
+        }
+
+        @keyframes modalSlideIn {
+            from { 
+                transform: translateY(30px) scale(0.9); 
+                opacity: 0; 
+            }
+            to { 
+                transform: translateY(0) scale(1); 
+                opacity: 1; 
+            }
+        }
+
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: var(--spacing-md);
+            color: var(--beige);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        /* Sound Toggle */
+        .sound-toggle {
+            position: fixed;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            z-index: 100;
+            background: var(--dark-gray);
+            border: 2px solid var(--medium-gray);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sound-toggle:hover {
+            border-color: var(--beige);
+            transform: scale(1.1);
+        }
+
+        .sound-toggle.on {
+            background: var(--beige);
+            color: var(--pure-black);
+            border-color: var(--beige);
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-lg) 0 var(--spacing-xxl) 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent 0%, var(--pure-black) 30%, var(--pure-black) 100%);
+            z-index: 10;
+        }
+        
+        .progress-bar {
+            width: 80px;
+            height: 4px;
+            background: var(--medium-gray);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-orange);
+            border-radius: var(--radius-full);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 33%;
+        }
+        
+        @keyframes progressDotPulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.7;
+            }
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--pure-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-muted { color: var(--light-gray); }
+        .text-beige { color: var(--beige); }
+        .mt-sm { margin-top: var(--spacing-sm); }
+        .mt-md { margin-top: var(--spacing-md); }
+        .mt-lg { margin-top: var(--spacing-lg); }
+        .mt-xl { margin-top: var(--spacing-xl); }
+        .mb-md { margin-bottom: var(--spacing-md); }
+        .mb-lg { margin-bottom: var(--spacing-lg); }
+
+        /* Mobile Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .btn:hover {
+                transform: none;
+            }
+            
+            .btn:active {
+                transform: scale(0.95);
+            }
+            
+            .btn-large:hover {
+                transform: none;
+            }
+            
+            .option-card:hover {
+                transform: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .display {
+                font-size: 48px;
+                line-height: 56px;
+            }
+
+            h1 {
+                font-size: 36px;
+                line-height: 44px;
+            }
+
+            h2 {
+                font-size: 28px;
+                line-height: 36px;
+            }
+            
+            .btn {
+                min-height: 56px;
+                padding: var(--spacing-lg) var(--spacing-xl);
+            }
+            
+            .btn-large {
+                width: 140px;
+                height: 140px;
+                font-size: 52px;
+            }
+            
+            .nav-item {
+                padding: var(--spacing-lg);
+                min-height: 70px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievement-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--medium-gray);
+            border-radius: 50%;
+            border-top-color: var(--beige);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Confetti */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 3000;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--beige);
+            animation: confetti-fall 3s linear forwards;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sound Toggle -->
+    <div class="sound-toggle" id="sound-toggle" onclick="toggleSound()">
+        <span id="sound-icon">🔇</span>
+    </div>
+
+    <!-- Points Display -->
+    <div class="points-display" id="points-display" style="display: none;">
+        <span class="points-icon">⭐</span>
+        <span class="points-value" id="points-value">0 pts</span>
+    </div>
+
+    <!-- Onboarding Screen -->
+    <div id="onboarding-screen" class="screen active">
+        <div class="container" style="padding-bottom: 140px; min-height: 100vh; display: flex; flex-direction: column;">
+            <div class="onboarding-content" id="onboarding-step-0">
+                <div style="margin-bottom: var(--spacing-xxxl);">
+                    <div class="logo">
+                        <span class="logo-text" style="font-size: 16px; font-weight: 500; letter-spacing: 0.2em;">SCANDINAVIAN</span>
+                    </div>
+                    <div class="logo mb-lg">
+                        <span class="logo-text">GYM</span>
+                        <div class="logo-icon">
+                            <svg class="dumbbell-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14 4.14 5.57 2 7.71 3.43 9.14 2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22 14.86 20.57 16.29 22 17.71 20.57 19.14 22 20.57 20.57 22 19.14 20.57 17.71 22 16.29 20.57 14.86z"/>
+                            </svg>
+                        </div>
+                        <span class="logo-text">HOUSE</span>
+                    </div>
+                </div>
+                <div class="onboarding-icon" style="font-size: 64px; margin-bottom: var(--spacing-lg);">🏋️‍♂️</div>
+                <h1 style="margin-bottom: var(--spacing-md);">Push-Up Challenge</h1>
+                <p class="body-large" style="color: #CCCCCC;">Transform your strength with<br>Gymhouse discipline</p>
+            </div>
+
+            <div class="onboarding-content" id="onboarding-step-1" style="display: none;">
+                <h2>Choose Your Challenge</h2>
+                <p class="body text-muted mt-sm">Select your commitment level</p>
+                <div class="options-grid">
+                    <div class="option-card" data-days="7">
+                        <h1>7</h1>
+                        <span class="caption">Week Warrior</span>
+                    </div>
+                    <div class="option-card" data-days="14">
+                        <h1>14</h1>
+                        <span class="caption">Fortnight Fighter</span>
+                    </div>
+                    <div class="option-card" data-days="30">
+                        <h1>30</h1>
+                        <span class="caption">Monthly Master</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="onboarding-content" id="onboarding-step-2" style="display: none;">
+                <h2>Your Starting Point</h2>
+                <p class="body text-muted mt-sm">How many push-ups can you do in one set?</p>
+                <div class="level-selector">
+                    <button class="btn btn-secondary btn-icon" id="level-decrease">−</button>
+                    <div class="level-display">
+                        <div class="display text-beige" id="starting-level">10</div>
+                        <span class="caption">Push-ups</span>
+                    </div>
+                    <button class="btn btn-secondary btn-icon" id="level-increase">+</button>
+                </div>
+                <div class="mt-xl">
+                    <label class="body">
+                        <input type="checkbox" id="multiple-sets" checked> 
+                        Split into multiple sets
+                    </label>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <button class="btn btn-primary" id="onboarding-continue">
+                    Continue
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="logo">
+                <span class="logo-text" style="font-size: 16px; font-weight: 500; letter-spacing: 0.2em;">SCANDINAVIAN</span>
+            </div>
+            <div class="logo mb-lg">
+                <span class="logo-text">GYM</span>
+                <div class="logo-icon">
+                    <svg class="dumbbell-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.57 14.86L22 13.43 20.57 12 17 15.57 8.43 7 12 3.43 10.57 2 9.14 3.43 7.71 2 5.57 4.14 4.14 2.71 2.71 4.14 4.14 5.57 2 7.71 3.43 9.14 2 10.57 3.43 12 7 8.43 15.57 17 12 20.57 13.43 22 14.86 20.57 16.29 22 17.71 20.57 19.14 22 20.57 20.57 22 19.14 20.57 17.71 22 16.29 20.57 14.86z"/>
+                    </svg>
+                </div>
+                <span class="logo-text">HOUSE</span>
+            </div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Challenge Screen -->
+    <div id="challenge-screen" class="screen">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="challenge-loading" class="challenge-loading" style="display: none;">
+                <div class="skeleton skeleton-text large mb-lg"></div>
+                <div class="skeleton skeleton-text small mb-xl"></div>
+                <div class="skeleton skeleton-card mb-lg"></div>
+                <div class="skeleton skeleton-circle mb-lg"></div>
+                <div class="skeleton skeleton-card"></div>
+            </div>
+            
+            <!-- Actual Content -->
+            <div id="challenge-content" class="challenge-content">
+                <!-- Gymhouse Brand Header -->
+                <div class="brand-header">
+                    <div class="logo-compact">
+                        <span class="logo-text-small">GYMHOUSE SCANDINAVIA</span>
+                    </div>
+                </div>
+                
+                <div class="header">
+                    <h2>Today's Challenge</h2>
+                    <div class="date" id="today-date"></div>
+                </div>
+
+            <!-- Time-Based Challenge -->
+            <div class="card time-challenge-card" id="time-challenge-card" style="display: none;">
+                <div class="time-challenge-header">
+                    <div class="time-challenge-title">
+                        <span class="time-challenge-icon" id="challenge-icon">🌅</span>
+                        <span class="time-challenge-name" id="challenge-name">Morning Rush</span>
+                    </div>
+                    <span class="time-challenge-bonus" id="challenge-bonus">2X</span>
+                </div>
+                <div class="time-challenge-desc" id="challenge-desc">
+                    Complete before 9 AM for double points!
+                </div>
+                <div class="time-challenge-timer" id="challenge-timer">
+                    Time remaining: 2h 34m
+                </div>
+            </div>
+
+            <div class="card challenge-card">
+                <div class="sets-container" id="sets-indicators"></div>
+                
+                <div class="progress-circle-container">
+                    <div class="progress-ring" id="progress-ring"></div>
+                    <div class="progress-circle" id="progress-circle">
+                        <div class="display text-beige" id="completed-count">0</div>
+                        <span class="small">of <span id="target-count">20</span></span>
+                        <span class="caption mt-sm" id="current-set-label">Set 1 of 3</span>
+                    </div>
+                    <!-- Rest timer moved inside progress circle -->
+                    <div class="rest-timer" id="rest-timer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;">
+                        <div class="timer-ring-container" style="width: 100%; height: 100%; position: relative;">
+                            <svg class="timer-ring" viewBox="0 0 240 240" style="width: 100%; height: 100%;">
+                                <circle class="timer-ring-path-bg" cx="120" cy="120" r="110"/>
+                                <circle class="timer-ring-path-progress" cx="120" cy="120" r="110" 
+                                        stroke-dasharray="691.15" 
+                                        stroke-dashoffset="0" 
+                                        id="timer-ring-progress"/>
+                            </svg>
+                            <div class="progress-circle" style="position: absolute; top: 10px; left: 10px; width: 220px; height: 220px;">
+                                <div class="timer-display" id="timer-display" style="font-size: 72px; font-weight: 900; color: var(--primary-orange); margin-bottom: 0;">30</div>
+                                <div class="timer-message" style="font-size: 16px; color: var(--light-gray); margin: 8px 0;">Rest</div>
+                                <button class="btn btn-secondary btn-sm" onclick="skipRest()" style="padding: 10px 24px; font-size: 14px; border-radius: 20px;">Skip</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-large" id="count-button">+</button>
+
+                <div class="completion-badge" id="completion-badge" style="display: none;">
+                    <span>🏆</span>
+                    Challenge Complete!
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Form Check</h3>
+                <p class="body mt-sm">
+                    • Keep your body in a straight line<br>
+                    • Lower until chest nearly touches ground<br>
+                    • Push up with controlled motion<br>
+                    • Breathe out on the way up
+                </p>
+            </div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-item active" data-screen="challenge">
+                    <span class="icon">💪</span>
+                    <span class="caption">Challenge</span>
+                </div>
+                <div class="nav-item" data-screen="progress">
+                    <span class="icon">📊</span>
+                    <span class="caption">Progress</span>
+                </div>
+                <div class="nav-item" data-screen="profile">
+                    <span class="icon">👤</span>
+                    <span class="caption">Profile</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Progress Screen -->
+    <div id="progress-screen" class="screen">
+        <div class="container">
+            <!-- Gymhouse Brand Header -->
+            <div class="brand-header">
+                <div class="logo-compact">
+                    <span class="logo-text-small">GYMHOUSE SCANDINAVIA</span>
+                </div>
+            </div>
+            
+            <div class="header">
+                <h2>Your Progress</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="icon">🎯</div>
+                    <h1 class="text-beige" id="days-completed">0</h1>
+                    <span class="caption">Days Done</span>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">🔥</div>
+                    <h1 class="text-beige" id="current-streak">0</h1>
+                    <span class="caption">Streak</span>
+                </div>
+                <div class="stat-card">
+                    <div class="icon">📈</div>
+                    <h1 class="text-beige"><span id="completion-rate">0</span>%</h1>
+                    <span class="caption">Complete</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Challenge Calendar</h3>
+                <div class="calendar-grid" id="calendar-grid"></div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--beige);"></div>
+                        <span class="small">Completed</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: transparent; border: 2px solid var(--beige);"></div>
+                        <span class="small">Today</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--error-red);"></div>
+                        <span class="small">Missed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-section">
+                <h3 class="mb-md">Achievements</h3>
+                <div class="achievement-grid" id="achievement-grid"></div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-item" data-screen="challenge">
+                    <span class="icon">💪</span>
+                    <span class="caption">Challenge</span>
+                </div>
+                <div class="nav-item active" data-screen="progress">
+                    <span class="icon">📊</span>
+                    <span class="caption">Progress</span>
+                </div>
+                <div class="nav-item" data-screen="profile">
+                    <span class="icon">👤</span>
+                    <span class="caption">Profile</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="profile-screen" class="screen">
+        <div class="container">
+            <!-- Gymhouse Brand Header -->
+            <div class="brand-header">
+                <div class="logo-compact">
+                    <span class="logo-text-small">GYMHOUSE SCANDINAVIA</span>
+                </div>
+            </div>
+            
+            <div class="header">
+                <h2>Profile</h2>
+            </div>
+
+            <div class="card profile-header">
+                <div class="avatar" id="avatar">GH</div>
+                <h3>Gymhouse Warrior</h3>
+                <p class="text-muted">Member since <span id="member-since"></span></p>
+            </div>
+
+            <div class="mt-lg">
+                <h3 class="mb-md">Lifetime Stats</h3>
+                <div class="achievements-grid">
+                    <div class="achievement-card">
+                        <h1 id="total-pushups">0</h1>
+                        <span class="caption">Total Push-Ups</span>
+                    </div>
+                    <div class="achievement-card">
+                        <h1 id="challenges-completed">0</h1>
+                        <span class="caption">Challenges</span>
+                    </div>
+                    <div class="achievement-card">
+                        <h1 id="best-streak">0</h1>
+                        <span class="caption">Best Streak</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-xl">
+                <div class="settings-list">
+                    <div class="settings-item" onclick="showNotificationSettings()">
+                        <span class="icon">🔔</span>
+                        <span class="body">Notifications</span>
+                        <span class="chevron">›</span>
+                    </div>
+                    <div class="settings-item" onclick="exportData()">
+                        <span class="icon">📊</span>
+                        <span class="body">Export Data</span>
+                        <span class="chevron">›</span>
+                    </div>
+                    <div class="settings-item" onclick="showHelp()">
+                        <span class="icon">ℹ️</span>
+                        <span class="body">About Gymhouse</span>
+                        <span class="chevron">›</span>
+                    </div>
+                    <div class="settings-item danger" onclick="confirmReset()">
+                        <span class="icon">⚠️</span>
+                        <span class="body">Reset Progress</span>
+                        <span class="chevron">›</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <div class="nav-container">
+                <div class="nav-item" data-screen="challenge">
+                    <span class="icon">💪</span>
+                    <span class="caption">Challenge</span>
+                </div>
+                <div class="nav-item" data-screen="progress">
+                    <span class="icon">📊</span>
+                    <span class="caption">Progress</span>
+                </div>
+                <div class="nav-item active" data-screen="profile">
+                    <span class="icon">👤</span>
+                    <span class="caption">Profile</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modal-title">Title</h3>
+            <p class="body" id="modal-message">Message</p>
+            <div class="modal-actions" id="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="modal-confirm">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievement Popup -->
+    <div id="achievement-popup" class="achievement-popup" style="display: none;">
+        <div class="achievement-icon" id="achievement-icon">🏆</div>
+        <div class="achievement-title" id="achievement-title">Achievement Unlocked!</div>
+        <div class="achievement-desc" id="achievement-desc">Description</div>
+        <div class="achievement-points" id="achievement-points" style="margin-top: var(--spacing-sm); font-size: 18px; font-weight: 600;">+50 pts</div>
+    </div>
+
+    <!-- Points Popup -->
+    <div class="points-popup" id="points-popup" style="display: none;">
+        +100 pts!
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+
+    <!-- Audio Elements -->
+    <audio id="count-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSp+0Oy9diMFl2z0xYh4AxM7cu7yiH0HBGLRrZBXBgAOp+ASBhqNzBeKzCkBFLzT+jJzNA" type="audio/wav">
+    </audio>
+    <audio id="complete-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRqwGAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YYgGAAAAAAEA/v8BAP//AQAAAAAAAAAAAP//AQABAP7/AQABAAAAAAD//wEAAQABAAEA/v8BAAEA/v8BAAEA/v8CAAIA/v8CAAIA/v8DAAMA/P8EAAUA+/8GAAQA+/8HAAYA+f8IAAQA+f8JAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8KAAYA+f8K" type="audio/wav">
+    </audio>
+    <audio id="rest-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRl4GAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YToGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/wav">
+    </audio>
+
+    <script>
+        // App State
+        const APP_STATE = {
+            onboardingStep: 0,
+            challengeLength: 7,
+            startingLevel: 10,
+            multipleSets: true,
+            currentScreen: 'onboarding',
+            challengeData: null,
+            dailyProgress: {},
+            startDate: null,
+            soundEnabled: false,
+            currentSet: 1,
+            totalSets: 3,
+            setProgress: [],
+            restTimerInterval: null,
+            achievements: {},
+            unlockedAchievements: [],
+            totalPoints: 0,
+            activeTimeChallenge: null,
+            timeChallengeInterval: null
+        };
+
+        // Storage Keys
+        const STORAGE_KEYS = {
+            ONBOARDING_COMPLETE: 'gymhouse_onboarding_complete',
+            CHALLENGE_LENGTH: 'gymhouse_challenge_length',
+            STARTING_LEVEL: 'gymhouse_starting_level',
+            START_DATE: 'gymhouse_start_date',
+            DAILY_PROGRESS: 'gymhouse_daily_progress',
+            LIFETIME_STATS: 'gymhouse_lifetime_stats',
+            SOUND_ENABLED: 'gymhouse_sound_enabled',
+            MULTIPLE_SETS: 'gymhouse_multiple_sets',
+            ACHIEVEMENTS: 'gymhouse_achievements',
+            UNLOCKED_ACHIEVEMENTS: 'gymhouse_unlocked_achievements',
+            TOTAL_POINTS: 'gymhouse_total_points'
+        };
+
+        // Time-Based Challenges Definition
+        const TIME_CHALLENGES = {
+            viking: {
+                name: 'Viking Hour',
+                icon: '⚔️',
+                startHour: 5,
+                endHour: 6,
+                multiplier: 3,
+                desc: 'Channel your inner Viking! 3X points!',
+                color: '#DC2626'
+            },
+            morning: {
+                name: 'Morning Rush',
+                icon: '🌅',
+                startHour: 6,
+                endHour: 9,
+                multiplier: 2,
+                desc: 'Complete before 9 AM for double points!',
+                color: '#F59E0B'
+            },
+            lunch: {
+                name: 'Lunch Break Burn',
+                icon: '🔥',
+                startHour: 12,
+                endHour: 13,
+                multiplier: 1.5,
+                desc: 'Quick midday session for 1.5X points!',
+                color: '#00B67A'
+            },
+            evening: {
+                name: 'Nordic Nights',
+                icon: '🌙',
+                startHour: 20,
+                endHour: 22,
+                multiplier: 1.5,
+                desc: 'End your day strong with 1.5X points!',
+                color: '#3B82F6'
+            }
+        };
+
+
+        // Achievements Definition
+        const ACHIEVEMENTS_DEF = {
+            // Starting achievements
+            first_day: { icon: '🌟', name: 'First Day', desc: 'Complete your first day', points: 10 },
+            first_set: { icon: '💪', name: 'First Rep', desc: 'Complete your first set', points: 5 },
+            
+            // Streak achievements
+            streak_3: { icon: '🔥', name: 'Getting Started', desc: '3 day streak', points: 15 },
+            streak_5: { icon: '🔥', name: 'On Fire', desc: '5 day streak', points: 25 },
+            streak_10: { icon: '🌟', name: 'Unstoppable', desc: '10 day streak', points: 50 },
+            streak_30: { icon: '⚡', name: 'Legend', desc: '30 day streak', points: 100 },
+            
+            // Volume achievements
+            fifty_club: { icon: '5️⃣0️⃣', name: '50 Club', desc: '50 push-ups in one day', points: 20 },
+            hundred_club: { icon: '💯', name: 'Century', desc: '100 push-ups in one day', points: 40 },
+            thousand_club: { icon: '🎯', name: '1K Club', desc: '1000 lifetime push-ups', points: 75 },
+            five_thousand: { icon: '🏆', name: '5K Master', desc: '5000 lifetime push-ups', points: 150 },
+            
+            // Time-based achievements
+            early_bird: { icon: '🌅', name: 'Early Bird', desc: 'Complete before 6 AM', points: 15 },
+            morning_warrior: { icon: '☀️', name: 'Morning Warrior', desc: 'Complete before 9 AM', points: 10 },
+            night_owl: { icon: '🌙', name: 'Night Owl', desc: 'Complete after 9 PM', points: 10 },
+            midnight_grind: { icon: '🌌', name: 'Midnight Grind', desc: 'Complete after midnight', points: 20 },
+            
+            // Progress achievements
+            halfway: { icon: '⚡', name: 'Halfway Hero', desc: 'Reach challenge midpoint', points: 30 },
+            week_warrior: { icon: '🗓️', name: 'Week Warrior', desc: 'Complete 7 days', points: 35 },
+            fortnight_fighter: { icon: '🛡️', name: 'Fortnight Fighter', desc: 'Complete 14 days', points: 60 },
+            monthly_master: { icon: '👑', name: 'Monthly Master', desc: 'Complete 30 days', points: 100 },
+            
+            // Perfect achievements
+            perfect_week: { icon: '💎', name: 'Perfect Week', desc: '7 days without missing', points: 50 },
+            perfect_form: { icon: '✨', name: 'Perfect Form', desc: 'Complete with perfect sets', points: 25 },
+            finisher: { icon: '🏆', name: 'Challenge Master', desc: 'Complete a challenge', points: 80 },
+            perfectionist: { icon: '💫', name: 'Perfectionist', desc: 'Perfect challenge completion', points: 120 },
+            
+            // Special achievements
+            comeback_kid: { icon: '🔄', name: 'Comeback Kid', desc: 'Return after missing a day', points: 15 },
+            level_up: { icon: '📈', name: 'Level Up', desc: 'Increase daily target', points: 20 },
+            iron_will: { icon: '🦾', name: 'Iron Will', desc: 'Complete when target > 50', points: 40 },
+            gymhouse_elite: { icon: '🏅', name: 'Gymhouse Elite', desc: 'Unlock 10 achievements', points: 100 }
+        };
+
+        // Initialize App
+        function initApp() {
+            loadSoundPreference();
+            loadPoints();
+            
+            // Hide loading overlay after a brief delay
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                checkOnboarding();
+            }, 1500);
+            
+            setupEventListeners();
+            updateDateTime();
+            setInterval(updateDateTime, 60000);
+            initializeAchievements();
+            checkTimeChallenge();
+            setInterval(checkTimeChallenge, 60000); // Check every minute
+        }
+
+        // Sound Functions
+        function loadSoundPreference() {
+            const soundEnabled = localStorage.getItem(STORAGE_KEYS.SOUND_ENABLED) === 'true';
+            APP_STATE.soundEnabled = soundEnabled;
+            updateSoundToggle();
+        }
+
+        function toggleSound() {
+            APP_STATE.soundEnabled = !APP_STATE.soundEnabled;
+            localStorage.setItem(STORAGE_KEYS.SOUND_ENABLED, APP_STATE.soundEnabled.toString());
+            updateSoundToggle();
+            if (APP_STATE.soundEnabled) {
+                playSound('count');
+            }
+        }
+
+        function updateSoundToggle() {
+            const toggle = document.getElementById('sound-toggle');
+            const icon = document.getElementById('sound-icon');
+            if (APP_STATE.soundEnabled) {
+                toggle.classList.add('on');
+                icon.textContent = '🔊';
+            } else {
+                toggle.classList.remove('on');
+                icon.textContent = '🔇';
+            }
+        }
+
+        function playSound(type) {
+            if (!APP_STATE.soundEnabled) return;
+            
+            const audio = document.getElementById(`${type}-sound`);
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log('Audio play failed:', e));
+            }
+
+            // Haptic feedback for mobile
+            if ('vibrate' in navigator) {
+                switch(type) {
+                    case 'count':
+                        navigator.vibrate(50);
+                        break;
+                    case 'complete':
+                        navigator.vibrate([100, 50, 100]);
+                        break;
+                    case 'rest':
+                        navigator.vibrate(200);
+                        break;
+                }
+            }
+        }
+
+        // Check if onboarding is complete
+        function checkOnboarding() {
+            const onboardingComplete = localStorage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETE);
+            if (onboardingComplete === 'true') {
+                loadChallengeData();
+                showScreen('challenge');
+            } else {
+                showScreen('onboarding');
+            }
+        }
+
+        // Setup Event Listeners
+        function setupEventListeners() {
+            // Onboarding
+            document.getElementById('onboarding-continue').addEventListener('click', handleOnboardingContinue);
+            
+            // Challenge length selection
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.option-card').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    APP_STATE.challengeLength = parseInt(this.dataset.days);
+                });
+            });
+
+            // Level selector
+            document.getElementById('level-decrease').addEventListener('click', () => {
+                const level = parseInt(document.getElementById('starting-level').textContent);
+                if (level > 5) {
+                    document.getElementById('starting-level').textContent = level - 5;
+                    APP_STATE.startingLevel = level - 5;
+                }
+            });
+
+            document.getElementById('level-increase').addEventListener('click', () => {
+                const level = parseInt(document.getElementById('starting-level').textContent);
+                document.getElementById('starting-level').textContent = level + 5;
+                APP_STATE.startingLevel = level + 5;
+            });
+
+            // Multiple sets checkbox
+            document.getElementById('multiple-sets').addEventListener('change', (e) => {
+                APP_STATE.multipleSets = e.target.checked;
+            });
+
+            // Count button
+            document.getElementById('count-button').addEventListener('click', handleCountIncrement);
+
+            // Navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const screen = this.dataset.screen;
+                    showScreen(screen);
+                    
+                    // Update active states
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    document.querySelectorAll(`.nav-item[data-screen="${screen}"]`).forEach(nav => nav.classList.add('active'));
+                });
+            });
+        }
+
+        // Onboarding
+        function handleOnboardingContinue() {
+            if (APP_STATE.onboardingStep < 2) {
+                APP_STATE.onboardingStep++;
+                showOnboardingStep(APP_STATE.onboardingStep);
+                
+                // Update progress dots
+                const progressFill = document.getElementById('progress-fill');
+                const progressPercent = ((APP_STATE.onboardingStep + 1) / 3) * 100;
+                progressFill.style.width = progressPercent + '%';
+
+                // Update button text
+                if (APP_STATE.onboardingStep === 2) {
+                    document.getElementById('onboarding-continue').innerHTML = 'Start Challenge <span>→</span>';
+                }
+            } else {
+                completeOnboarding();
+            }
+        }
+
+        function showOnboardingStep(step) {
+            document.querySelectorAll('[id^="onboarding-step-"]').forEach(el => el.style.display = 'none');
+            document.getElementById(`onboarding-step-${step}`).style.display = 'flex';
+        }
+
+        function completeOnboarding() {
+            // Save settings
+            localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETE, 'true');
+            localStorage.setItem(STORAGE_KEYS.CHALLENGE_LENGTH, APP_STATE.challengeLength.toString());
+            localStorage.setItem(STORAGE_KEYS.STARTING_LEVEL, APP_STATE.startingLevel.toString());
+            localStorage.setItem(STORAGE_KEYS.MULTIPLE_SETS, APP_STATE.multipleSets.toString());
+            localStorage.setItem(STORAGE_KEYS.START_DATE, new Date().toISOString());
+            
+            // Initialize challenge data
+            initializeChallengeData();
+            
+            // Navigate to main screen
+            showScreen('challenge');
+        }
+
+        // Challenge Data
+        function initializeChallengeData() {
+            APP_STATE.startDate = new Date();
+            APP_STATE.dailyProgress = {};
+            
+            // Calculate sets
+            if (APP_STATE.multipleSets) {
+                APP_STATE.totalSets = APP_STATE.startingLevel <= 15 ? 2 : 3;
+            } else {
+                APP_STATE.totalSets = 1;
+            }
+            
+            // Create daily targets
+            for (let i = 0; i < APP_STATE.challengeLength; i++) {
+                const date = new Date(APP_STATE.startDate);
+                date.setDate(date.getDate() + i);
+                const dateKey = formatDateKey(date);
+                
+                APP_STATE.dailyProgress[dateKey] = {
+                    target: APP_STATE.startingLevel + (i * 2),
+                    completed: 0,
+                    sets: [],
+                    date: date.toISOString()
+                };
+            }
+            
+            saveDailyProgress();
+        }
+
+        function loadChallengeData() {
+            APP_STATE.challengeLength = parseInt(localStorage.getItem(STORAGE_KEYS.CHALLENGE_LENGTH) || '7');
+            APP_STATE.startingLevel = parseInt(localStorage.getItem(STORAGE_KEYS.STARTING_LEVEL) || '10');
+            APP_STATE.multipleSets = localStorage.getItem(STORAGE_KEYS.MULTIPLE_SETS) === 'true';
+            APP_STATE.startDate = new Date(localStorage.getItem(STORAGE_KEYS.START_DATE));
+            
+            const savedProgress = localStorage.getItem(STORAGE_KEYS.DAILY_PROGRESS);
+            if (savedProgress) {
+                APP_STATE.dailyProgress = JSON.parse(savedProgress);
+            } else {
+                initializeChallengeData();
+            }
+            
+            const savedAchievements = localStorage.getItem(STORAGE_KEYS.UNLOCKED_ACHIEVEMENTS);
+            if (savedAchievements) {
+                APP_STATE.unlockedAchievements = JSON.parse(savedAchievements);
+            }
+            
+            updateChallengeScreen();
+            updateProgressScreen();
+            updateProfileScreen();
+        }
+
+        function saveDailyProgress() {
+            localStorage.setItem(STORAGE_KEYS.DAILY_PROGRESS, JSON.stringify(APP_STATE.dailyProgress));
+        }
+
+        // Challenge Screen
+        function updateChallengeScreen() {
+            const today = formatDateKey(new Date());
+            const todayData = APP_STATE.dailyProgress[today];
+            
+            if (todayData) {
+                // Calculate sets
+                if (APP_STATE.multipleSets) {
+                    APP_STATE.totalSets = todayData.target <= 15 ? 2 : 3;
+                    const perSet = Math.ceil(todayData.target / APP_STATE.totalSets);
+                    
+                    // Initialize sets if needed
+                    if (!todayData.sets || todayData.sets.length === 0) {
+                        todayData.sets = Array(APP_STATE.totalSets).fill(0);
+                        saveDailyProgress();
+                    }
+                    
+                    // Update set indicators
+                    updateSetIndicators();
+                    
+                    // Find current set
+                    APP_STATE.currentSet = 1;
+                    let totalDone = 0;
+                    for (let i = 0; i < todayData.sets.length; i++) {
+                        totalDone += todayData.sets[i];
+                        if (todayData.sets[i] < perSet && totalDone < todayData.target) {
+                            APP_STATE.currentSet = i + 1;
+                            break;
+                        }
+                    }
+                    
+                    document.getElementById('current-set-label').textContent = 
+                        `Set ${APP_STATE.currentSet} of ${APP_STATE.totalSets}`;
+                } else {
+                    document.getElementById('sets-indicators').style.display = 'none';
+                    document.getElementById('current-set-label').style.display = 'none';
+                }
+                
+                animateCounter(document.getElementById('completed-count'), todayData.completed);
+                document.getElementById('target-count').textContent = todayData.target;
+                
+                const progress = (todayData.completed / todayData.target) * 100;
+                updateProgressRing(progress);
+                
+                if (todayData.completed >= todayData.target) {
+                    document.getElementById('count-button').innerHTML = '✓';
+                    document.getElementById('count-button').disabled = true;
+                    document.getElementById('completion-badge').style.display = 'inline-flex';
+                    document.getElementById('rest-timer').classList.remove('active');
+                } else {
+                    document.getElementById('count-button').innerHTML = '+';
+                    document.getElementById('count-button').disabled = false;
+                    document.getElementById('completion-badge').style.display = 'none';
+                }
+            }
+        }
+
+        function updateSetIndicators() {
+            const container = document.getElementById('sets-indicators');
+            container.innerHTML = '';
+            container.style.display = 'flex';
+            
+            const today = formatDateKey(new Date());
+            const todayData = APP_STATE.dailyProgress[today];
+            const perSet = Math.ceil(todayData.target / APP_STATE.totalSets);
+            
+            for (let i = 0; i < APP_STATE.totalSets; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'set-indicator';
+                
+                const setCount = todayData.sets[i] || 0;
+                if (setCount >= perSet || (i === APP_STATE.totalSets - 1 && todayData.completed >= todayData.target)) {
+                    indicator.classList.add('completed');
+                } else if (i + 1 === APP_STATE.currentSet) {
+                    indicator.classList.add('active');
+                }
+                
+                container.appendChild(indicator);
+            }
+        }
+
+        function handleCountIncrement() {
+            const today = formatDateKey(new Date());
+            const todayData = APP_STATE.dailyProgress[today];
+            
+            if (todayData && todayData.completed < todayData.target) {
+                todayData.completed++;
+                
+                // Update set progress
+                if (APP_STATE.multipleSets && todayData.sets) {
+                    const perSet = Math.ceil(todayData.target / APP_STATE.totalSets);
+                    const setIndex = APP_STATE.currentSet - 1;
+                    
+                    if (todayData.sets[setIndex] < perSet) {
+                        todayData.sets[setIndex]++;
+                    }
+                    
+                    // Check if set is complete
+                    if (todayData.sets[setIndex] >= perSet && APP_STATE.currentSet < APP_STATE.totalSets && todayData.completed < todayData.target) {
+                        // Start rest timer
+                        startRestTimer();
+                    }
+                }
+                
+                saveDailyProgress();
+                updateChallengeScreen();
+                updateLifetimeStats();
+                checkAchievements();
+                
+                // Award points
+                const basePoints = 10;
+                const multiplier = APP_STATE.activeTimeChallenge ? APP_STATE.activeTimeChallenge.multiplier : 1;
+                const points = Math.round(basePoints * multiplier);
+                addPoints(points);
+                
+                // Animate button
+                const button = document.getElementById('count-button');
+                button.style.transform = 'scale(0.9)';
+                setTimeout(() => button.style.transform = 'scale(1)', 100);
+                
+                // Play sound
+                playSound('count');
+                
+                if (todayData.completed === todayData.target) {
+                    // Completion bonus
+                    const completionBonus = APP_STATE.activeTimeChallenge ? 100 * APP_STATE.activeTimeChallenge.multiplier : 100;
+                    addPoints(Math.round(completionBonus));
+                    
+                    playSound('complete');
+                    showCompletionModal();
+                    updateProgressScreen();
+                    showConfetti();
+                }
+            }
+        }
+
+        function startRestTimer() {
+            const restDuration = 30; // seconds
+            let timeRemaining = restDuration;
+            
+            document.getElementById('rest-timer').classList.add('active');
+            document.getElementById('count-button').disabled = true;
+            
+            playSound('rest');
+            
+            // Hide the normal progress display
+            document.getElementById('progress-circle').style.display = 'none';
+            
+            // Reset the progress ring
+            const progressRing = document.getElementById('timer-ring-progress');
+            const circumference = 2 * Math.PI * 110; // 2πr with new radius
+            progressRing.style.strokeDashoffset = '0';
+            
+            const updateTimer = () => {
+                document.getElementById('timer-display').textContent = timeRemaining.toString();
+                
+                // Update progress ring
+                const progress = (restDuration - timeRemaining) / restDuration;
+                const offset = circumference * progress;
+                progressRing.style.strokeDashoffset = offset.toString();
+                
+                if (timeRemaining <= 0) {
+                    clearInterval(APP_STATE.restTimerInterval);
+                    endRest();
+                } else {
+                    timeRemaining--;
+                    
+                    // Play tick sound and add pulse for last 3 seconds
+                    if (timeRemaining <= 3 && timeRemaining > 0) {
+                        playSound('count');
+                        document.getElementById('timer-display').classList.add('pulse');
+                        setTimeout(() => {
+                            document.getElementById('timer-display').classList.remove('pulse');
+                        }, 1000);
+                    }
+                }
+            };
+            
+            updateTimer();
+            APP_STATE.restTimerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function skipRest() {
+            if (APP_STATE.restTimerInterval) {
+                clearInterval(APP_STATE.restTimerInterval);
+                endRest();
+            }
+        }
+
+        function endRest() {
+            document.getElementById('rest-timer').classList.remove('active');
+            document.getElementById('progress-circle').style.display = 'flex';
+            document.getElementById('count-button').disabled = false;
+            APP_STATE.currentSet++;
+            updateChallengeScreen();
+            playSound('count');
+        }
+
+        function updateProgressRing(percentage, animate = true) {
+            const ring = document.getElementById('progress-ring');
+            const degrees = (percentage / 100) * 360;
+            
+            if (animate) {
+                // Add smooth animation
+                ring.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                
+                // Add glow effect during progress
+                if (percentage > 0 && percentage < 100) {
+                    ring.classList.add('animated');
+                } else {
+                    ring.classList.remove('animated');
+                }
+                
+                // Special effect when completing
+                if (percentage === 100) {
+                    ring.style.filter = 'drop-shadow(0 0 30px rgba(255, 107, 53, 0.8))';
+                    setTimeout(() => {
+                        ring.style.filter = 'drop-shadow(0 0 15px rgba(255, 107, 53, 0.4))';
+                    }, 1000);
+                }
+            }
+            
+            ring.style.setProperty('--progress', `${degrees}deg`);
+        }
+        
+        function animateCounter(element, targetValue, duration = 500) {
+            const startValue = parseInt(element.textContent) || 0;
+            const difference = targetValue - startValue;
+            const startTime = performance.now();
+            
+            function updateCount(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.round(startValue + (difference * easeOut));
+                
+                element.textContent = currentValue;
+                
+                // Add bounce effect
+                element.classList.add('counting');
+                setTimeout(() => element.classList.remove('counting'), 300);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCount);
+                }
+            }
+            
+            requestAnimationFrame(updateCount);
+        }
+
+        // Progress Screen
+        function updateProgressScreen() {
+            let daysCompleted = 0;
+            let currentStreak = 0;
+            let tempStreak = 0;
+            let lastCompletedDate = null;
+            
+            const sortedDates = Object.keys(APP_STATE.dailyProgress).sort();
+            const today = new Date();
+            
+            sortedDates.forEach(dateKey => {
+                const progress = APP_STATE.dailyProgress[dateKey];
+                const date = new Date(progress.date);
+                
+                if (date <= today && progress.completed >= progress.target) {
+                    daysCompleted++;
+                    
+                    if (!lastCompletedDate || 
+                        (date - lastCompletedDate) / (1000 * 60 * 60 * 24) === 1) {
+                        tempStreak++;
+                    } else {
+                        tempStreak = 1;
+                    }
+                    
+                    currentStreak = tempStreak;
+                    lastCompletedDate = date;
+                }
+            });
+            
+            const completionRate = Math.round((daysCompleted / APP_STATE.challengeLength) * 100);
+            
+            document.getElementById('days-completed').textContent = daysCompleted;
+            document.getElementById('current-streak').textContent = currentStreak;
+            document.getElementById('completion-rate').textContent = completionRate;
+            
+            // Update calendar
+            updateCalendar();
+            
+            // Update achievements display
+            updateAchievementsDisplay();
+        }
+
+        function updateCalendar() {
+            const calendarGrid = document.getElementById('calendar-grid');
+            calendarGrid.innerHTML = '';
+            
+            const sortedDates = Object.keys(APP_STATE.dailyProgress).sort();
+            const today = formatDateKey(new Date());
+            
+            sortedDates.forEach((dateKey, index) => {
+                const progress = APP_STATE.dailyProgress[dateKey];
+                const date = new Date(progress.date);
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                let status = 'future';
+                if (dateKey === today) {
+                    status = progress.completed >= progress.target ? 'completed' : 'today';
+                } else if (date < new Date()) {
+                    status = progress.completed >= progress.target ? 'completed' : 'missed';
+                }
+                
+                dayElement.classList.add(status);
+                dayElement.innerHTML = `
+                    ${index + 1}
+                    ${status === 'completed' ? '<span class="check">✓</span>' : ''}
+                `;
+                
+                dayElement.addEventListener('click', () => showDayDetails(dateKey));
+                calendarGrid.appendChild(dayElement);
+            });
+        }
+
+        // Achievements
+        function initializeAchievements() {
+            const saved = localStorage.getItem(STORAGE_KEYS.UNLOCKED_ACHIEVEMENTS);
+            if (saved) {
+                APP_STATE.unlockedAchievements = JSON.parse(saved);
+            }
+        }
+
+        function checkAchievements() {
+            const stats = calculateStats();
+            const now = new Date();
+            const hour = now.getHours();
+            const todayKey = formatDateKey(now);
+            const todayProgress = APP_STATE.dailyProgress[todayKey];
+            
+            // First time achievements
+            if (APP_STATE.currentSet === 1 && APP_STATE.currentCount > 0 && !hasAchievement('first_set')) {
+                unlockAchievement('first_set');
+            }
+            
+            if (stats.daysCompleted === 1 && !hasAchievement('first_day')) {
+                unlockAchievement('first_day');
+            }
+            
+            // Streak achievements
+            if (stats.currentStreak === 3 && !hasAchievement('streak_3')) {
+                unlockAchievement('streak_3');
+            }
+            
+            if (stats.currentStreak === 5 && !hasAchievement('streak_5')) {
+                unlockAchievement('streak_5');
+            }
+            
+            if (stats.currentStreak === 10 && !hasAchievement('streak_10')) {
+                unlockAchievement('streak_10');
+            }
+            
+            if (stats.currentStreak === 30 && !hasAchievement('streak_30')) {
+                unlockAchievement('streak_30');
+            }
+            
+            // Daily volume achievements
+            if (todayProgress && todayProgress.completed >= 50 && !hasAchievement('fifty_club')) {
+                unlockAchievement('fifty_club');
+            }
+            
+            if (todayProgress && todayProgress.completed >= 100 && !hasAchievement('hundred_club')) {
+                unlockAchievement('hundred_club');
+            }
+            
+            // Total volume achievements
+            if (stats.totalPushups >= 1000 && !hasAchievement('thousand_club')) {
+                unlockAchievement('thousand_club');
+            }
+            
+            if (stats.totalPushups >= 5000 && !hasAchievement('five_thousand')) {
+                unlockAchievement('five_thousand');
+            }
+            
+            // Time-based achievements
+            if (hour < 6 && !hasAchievement('early_bird')) {
+                unlockAchievement('early_bird');
+            }
+            
+            if (hour < 9 && hour >= 6 && !hasAchievement('morning_warrior')) {
+                unlockAchievement('morning_warrior');
+            }
+            
+            if (hour >= 21 && !hasAchievement('night_owl')) {
+                unlockAchievement('night_owl');
+            }
+            
+            if (hour < 1 && !hasAchievement('midnight_grind')) {
+                unlockAchievement('midnight_grind');
+            }
+            
+            // Progress achievements
+            if (stats.daysCompleted === Math.floor(APP_STATE.challengeLength / 2) && !hasAchievement('halfway')) {
+                unlockAchievement('halfway');
+            }
+            
+            if (stats.daysCompleted === 7 && !hasAchievement('week_warrior')) {
+                unlockAchievement('week_warrior');
+            }
+            
+            if (stats.daysCompleted === 14 && !hasAchievement('fortnight_fighter')) {
+                unlockAchievement('fortnight_fighter');
+            }
+            
+            if (stats.daysCompleted === 30 && !hasAchievement('monthly_master')) {
+                unlockAchievement('monthly_master');
+            }
+            
+            // Perfect achievements
+            if (stats.currentStreak === 7 && stats.daysCompleted === 7 && !hasAchievement('perfect_week')) {
+                unlockAchievement('perfect_week');
+            }
+            
+            // Special achievements
+            if (todayProgress && todayProgress.target > 50 && todayProgress.completed >= todayProgress.target && !hasAchievement('iron_will')) {
+                unlockAchievement('iron_will');
+            }
+            
+            if (APP_STATE.unlockedAchievements.length >= 10 && !hasAchievement('gymhouse_elite')) {
+                unlockAchievement('gymhouse_elite');
+            }
+        }
+
+        function hasAchievement(id) {
+            return APP_STATE.unlockedAchievements.includes(id);
+        }
+
+        function unlockAchievement(id) {
+            APP_STATE.unlockedAchievements.push(id);
+            localStorage.setItem(STORAGE_KEYS.UNLOCKED_ACHIEVEMENTS, JSON.stringify(APP_STATE.unlockedAchievements));
+            
+            // Award points for achievement
+            const achievement = ACHIEVEMENTS_DEF[id];
+            if (achievement.points) {
+                addPoints(achievement.points);
+            }
+            
+            showAchievementPopup(id);
+        }
+
+        function showAchievementPopup(id) {
+            const achievement = ACHIEVEMENTS_DEF[id];
+            const popup = document.getElementById('achievement-popup');
+            
+            document.getElementById('achievement-icon').textContent = achievement.icon;
+            document.getElementById('achievement-title').textContent = achievement.name;
+            document.getElementById('achievement-desc').textContent = achievement.desc;
+            document.getElementById('achievement-points').textContent = `+${achievement.points} pts`;
+            
+            popup.style.display = 'block';
+            popup.style.transform = 'translate(-50%, -50%) scale(0)';
+            
+            setTimeout(() => {
+                popup.style.transform = 'translate(-50%, -50%) scale(1)';
+            }, 100);
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 3000);
+            
+            playSound('complete');
+        }
+
+        function updateAchievementsDisplay() {
+            const grid = document.getElementById('achievement-grid');
+            grid.innerHTML = '';
+            
+            Object.entries(ACHIEVEMENTS_DEF).forEach(([id, achievement]) => {
+                const badge = document.createElement('div');
+                badge.className = 'achievement-badge';
+                
+                if (hasAchievement(id)) {
+                    badge.classList.add('unlocked');
+                } else {
+                    badge.classList.add('locked');
+                }
+                
+                badge.innerHTML = `
+                    <div class="badge-icon">${achievement.icon}</div>
+                    <div class="badge-name">${achievement.name}</div>
+                `;
+                
+                badge.addEventListener('click', () => {
+                    showModal(achievement.name, achievement.desc);
+                });
+                
+                grid.appendChild(badge);
+            });
+        }
+
+        // Stats calculation
+        function calculateStats() {
+            let totalPushups = 0;
+            let daysCompleted = 0;
+            let currentStreak = 0;
+            let tempStreak = 0;
+            let lastCompletedDate = null;
+            let bestStreak = 0;
+            
+            const sortedDates = Object.keys(APP_STATE.dailyProgress).sort();
+            const today = new Date();
+            
+            sortedDates.forEach(dateKey => {
+                const progress = APP_STATE.dailyProgress[dateKey];
+                const date = new Date(progress.date);
+                
+                if (date <= today) {
+                    totalPushups += progress.completed;
+                    
+                    if (progress.completed >= progress.target) {
+                        daysCompleted++;
+                        
+                        if (!lastCompletedDate || 
+                            (date - lastCompletedDate) / (1000 * 60 * 60 * 24) === 1) {
+                            tempStreak++;
+                        } else {
+                            tempStreak = 1;
+                        }
+                        
+                        bestStreak = Math.max(bestStreak, tempStreak);
+                        currentStreak = tempStreak;
+                        lastCompletedDate = date;
+                    }
+                }
+            });
+            
+            return {
+                totalPushups,
+                daysCompleted,
+                currentStreak,
+                bestStreak,
+                completionRate: Math.round((daysCompleted / APP_STATE.challengeLength) * 100)
+            };
+        }
+
+        // Profile Screen
+        function updateProfileScreen() {
+            const memberSince = localStorage.getItem(STORAGE_KEYS.START_DATE);
+            if (memberSince) {
+                const date = new Date(memberSince);
+                document.getElementById('member-since').textContent = 
+                    date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            }
+            
+            updateLifetimeStats();
+        }
+
+        function updateLifetimeStats() {
+            const stats = calculateStats();
+            let lifetimeStats = JSON.parse(localStorage.getItem(STORAGE_KEYS.LIFETIME_STATS) || '{}');
+            
+            // Update display
+            document.getElementById('total-pushups').textContent = stats.totalPushups;
+            document.getElementById('best-streak').textContent = stats.bestStreak;
+            
+            // Check if challenge is completed
+            if (stats.daysCompleted === APP_STATE.challengeLength && !lifetimeStats.currentChallengeCompleted) {
+                lifetimeStats.challengesCompleted = (lifetimeStats.challengesCompleted || 0) + 1;
+                lifetimeStats.currentChallengeCompleted = true;
+                localStorage.setItem(STORAGE_KEYS.LIFETIME_STATS, JSON.stringify(lifetimeStats));
+                
+                if (!hasAchievement('finisher')) {
+                    unlockAchievement('finisher');
+                }
+                
+                if (stats.completionRate === 100 && !hasAchievement('perfectionist')) {
+                    unlockAchievement('perfectionist');
+                }
+            }
+            
+            document.getElementById('challenges-completed').textContent = lifetimeStats.challengesCompleted || 0;
+        }
+
+        // Utility Functions
+        function showScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+            document.getElementById(`${screenName}-screen`).classList.add('active');
+            APP_STATE.currentScreen = screenName;
+            
+            // Update screen data
+            if (screenName === 'challenge') updateChallengeScreen();
+            if (screenName === 'progress') updateProgressScreen();
+            if (screenName === 'profile') updateProfileScreen();
+        }
+
+        function formatDateKey(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function updateDateTime() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('today-date').textContent = dateString;
+        }
+
+        // Modal Functions
+        function showModal(title, message, onConfirm, cancelText = 'Cancel') {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-message').textContent = message;
+            document.getElementById('modal').classList.add('active');
+            
+            const confirmBtn = document.getElementById('modal-confirm');
+            const cancelBtn = document.querySelector('.modal-actions .btn-secondary');
+            
+            // Update cancel button text
+            if (cancelBtn) {
+                cancelBtn.textContent = cancelText;
+            }
+            
+            if (onConfirm) {
+                confirmBtn.style.display = 'block';
+                confirmBtn.onclick = () => {
+                    closeModal();
+                    onConfirm();
+                };
+            } else {
+                confirmBtn.style.display = 'none';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function showCompletionModal() {
+            showModal(
+                '💪 Challenge Complete!',
+                "Excellent work! You've crushed today's challenge. Keep building that Gymhouse strength!",
+                null,
+                'Done'
+            );
+        }
+
+        function showDayDetails(dateKey) {
+            const progress = APP_STATE.dailyProgress[dateKey];
+            const date = new Date(progress.date);
+            const dateString = date.toLocaleDateString('en-US', { 
+                weekday: 'long', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            let message = `Target: ${progress.target} push-ups\nCompleted: ${progress.completed} push-ups`;
+            
+            if (progress.sets && progress.sets.length > 0) {
+                message += '\n\nSets: ' + progress.sets.join(' | ');
+            }
+            
+            showModal(dateString, message, null);
+        }
+
+        // Confetti Effect
+        function showConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#D4C4B0', '#E8DDD3', '#00B67A', '#FFFFFF'];
+            
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    container.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+
+        // Settings Functions
+        function showNotificationSettings() {
+            showModal(
+                '🔔 Daily Reminders',
+                'Enable push notifications in your browser settings to get daily workout reminders. Stay consistent with your Gymhouse training!',
+                null
+            );
+        }
+
+        function exportData() {
+            const stats = calculateStats();
+            const data = {
+                gymhouse: 'Gymhouse',
+                startDate: APP_STATE.startDate,
+                challengeLength: APP_STATE.challengeLength,
+                startingLevel: APP_STATE.startingLevel,
+                dailyProgress: APP_STATE.dailyProgress,
+                achievements: APP_STATE.unlockedAchievements,
+                stats: stats,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `gymhouse-challenge-${formatDateKey(new Date())}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showModal(
+                '📊 Export Complete',
+                'Your Gymhouse challenge data has been exported successfully.',
+                null
+            );
+        }
+
+        function showHelp() {
+            showModal(
+                'Gymhouse',
+                'Transform your fitness with discipline and dedication.\n\nVisit gymhouse.es for more information.\n\nInstagram: @gymhouse.es',
+                null
+            );
+        }
+
+        function confirmReset() {
+            showModal(
+                '⚠️ Reset Progress?',
+                'This will delete all your progress and achievements. This action cannot be undone. Are you sure?',
+                () => resetProgress()
+            );
+        }
+
+        function resetProgress() {
+            // Clear all local storage
+            Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+            
+            // Reset app state
+            APP_STATE.onboardingStep = 0;
+            APP_STATE.challengeLength = 7;
+            APP_STATE.startingLevel = 10;
+            APP_STATE.dailyProgress = {};
+            APP_STATE.unlockedAchievements = [];
+            
+            // Show onboarding
+            showScreen('onboarding');
+            showOnboardingStep(0);
+            
+            // Reset UI
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = '33%';
+            document.getElementById('onboarding-continue').innerHTML = 'Continue <span>→</span>';
+        }
+
+        // Initialize app when DOM is ready
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Points System
+        function loadPoints() {
+            APP_STATE.totalPoints = parseInt(localStorage.getItem(STORAGE_KEYS.TOTAL_POINTS) || '0');
+            updatePointsDisplay();
+        }
+
+        function addPoints(points) {
+            APP_STATE.totalPoints += points;
+            localStorage.setItem(STORAGE_KEYS.TOTAL_POINTS, APP_STATE.totalPoints.toString());
+            updatePointsDisplay();
+            showPointsPopup(points);
+        }
+
+        function updatePointsDisplay() {
+            const display = document.getElementById('points-display');
+            const value = document.getElementById('points-value');
+            
+            if (APP_STATE.totalPoints > 0) {
+                display.style.display = 'flex';
+                value.textContent = `${APP_STATE.totalPoints.toLocaleString()} pts`;
+            }
+        }
+
+        function showPointsPopup(points) {
+            const popup = document.getElementById('points-popup');
+            popup.textContent = `+${points} pts!`;
+            popup.style.display = 'block';
+            
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 1000);
+        }
+
+        // Time-Based Challenges
+        function checkTimeChallenge() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // Clear existing interval
+            if (APP_STATE.timeChallengeInterval) {
+                clearInterval(APP_STATE.timeChallengeInterval);
+            }
+            
+            // Find active challenge
+            APP_STATE.activeTimeChallenge = null;
+            for (const [key, challenge] of Object.entries(TIME_CHALLENGES)) {
+                if (currentHour >= challenge.startHour && currentHour < challenge.endHour) {
+                    APP_STATE.activeTimeChallenge = challenge;
+                    break;
+                }
+            }
+            
+            updateTimeChallengeDisplay();
+            
+            // Update every minute
+            APP_STATE.timeChallengeInterval = setInterval(updateTimeChallengeTimer, 60000);
+            updateTimeChallengeTimer();
+        }
+
+        function updateTimeChallengeDisplay() {
+            const card = document.getElementById('time-challenge-card');
+            
+            if (APP_STATE.activeTimeChallenge) {
+                card.style.display = 'block';
+                card.classList.remove('time-challenge-inactive');
+                
+                document.getElementById('challenge-icon').textContent = APP_STATE.activeTimeChallenge.icon;
+                document.getElementById('challenge-name').textContent = APP_STATE.activeTimeChallenge.name;
+                document.getElementById('challenge-bonus').textContent = `${APP_STATE.activeTimeChallenge.multiplier}X`;
+                document.getElementById('challenge-desc').textContent = APP_STATE.activeTimeChallenge.desc;
+                
+                // Update card border color
+                card.style.borderColor = APP_STATE.activeTimeChallenge.color;
+            } else {
+                // Show next upcoming challenge
+                const now = new Date();
+                const currentHour = now.getHours();
+                let nextChallenge = null;
+                let hoursUntilNext = 24;
+                
+                for (const challenge of Object.values(TIME_CHALLENGES)) {
+                    let hoursUntil = challenge.startHour - currentHour;
+                    if (hoursUntil < 0) hoursUntil += 24;
+                    
+                    if (hoursUntil < hoursUntilNext) {
+                        hoursUntilNext = hoursUntil;
+                        nextChallenge = challenge;
+                    }
+                }
+                
+                if (nextChallenge) {
+                    card.style.display = 'block';
+                    card.classList.add('time-challenge-inactive');
+                    
+                    document.getElementById('challenge-icon').textContent = nextChallenge.icon;
+                    document.getElementById('challenge-name').textContent = nextChallenge.name;
+                    document.getElementById('challenge-bonus').textContent = `${nextChallenge.multiplier}X`;
+                    document.getElementById('challenge-desc').textContent = `Starts in ${hoursUntilNext}h`;
+                    document.getElementById('challenge-timer').textContent = '';
+                }
+            }
+        }
+
+        function updateTimeChallengeTimer() {
+            if (!APP_STATE.activeTimeChallenge) return;
+            
+            const now = new Date();
+            const endHour = APP_STATE.activeTimeChallenge.endHour;
+            const endTime = new Date(now);
+            endTime.setHours(endHour, 0, 0, 0);
+            
+            if (endTime < now) {
+                checkTimeChallenge(); // Challenge ended
+                return;
+            }
+            
+            const diff = endTime - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('challenge-timer').textContent = 
+                `Time remaining: ${hours}h ${minutes}m`;
+        }
+
+        // PWA Installation
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+        
+        function showInstallPrompt() {
+            // Create install button if it doesn't exist
+            let installBtn = document.getElementById('install-btn');
+            if (!installBtn) {
+                installBtn = document.createElement('button');
+                installBtn.id = 'install-btn';
+                installBtn.className = 'btn btn-secondary';
+                installBtn.innerHTML = '📱 Install App';
+                installBtn.style.position = 'fixed';
+                installBtn.style.bottom = '100px';
+                installBtn.style.right = '20px';
+                installBtn.style.zIndex = '1000';
+                document.body.appendChild(installBtn);
+                
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            console.log('PWA installed');
+                        }
+                        deferredPrompt = null;
+                        installBtn.remove();
+                    }
+                });
+            }
+        }
+        
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/gymhouse-sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+        
+        // Push Notifications
+        async function requestNotificationPermission() {
+            if ('Notification' in window) {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('Notification permission granted');
+                    scheduleDailyReminders();
+                }
+            }
+        }
+        
+        function scheduleDailyReminders() {
+            // Schedule daily workout reminders
+            const reminderTimes = [
+                { hour: 8, minute: 0, message: "Good morning! Time for your daily push-up challenge!" },
+                { hour: 18, minute: 0, message: "Evening workout time! Let's crush those push-ups!" }
+            ];
+            
+            reminderTimes.forEach(time => {
+                const now = new Date();
+                const scheduledTime = new Date();
+                scheduledTime.setHours(time.hour, time.minute, 0, 0);
+                
+                if (scheduledTime < now) {
+                    scheduledTime.setDate(scheduledTime.getDate() + 1);
+                }
+                
+                const timeUntilReminder = scheduledTime.getTime() - now.getTime();
+                
+                setTimeout(() => {
+                    if (Notification.permission === 'granted') {
+                        new Notification('Gymhouse Challenge', {
+                            body: time.message,
+                            icon: '/images/icon-192x192.png',
+                            badge: '/images/badge-72x72.png',
+                            vibrate: [200, 100, 200]
+                        });
+                    }
+                    
+                    // Reschedule for next day
+                    scheduleDailyReminders();
+                }, timeUntilReminder);
+            });
+        }
+
+        // Loading states
+        function showLoading() {
+            document.getElementById('loading-overlay').classList.remove('hidden');
+        }
+        
+        function hideLoading() {
+            setTimeout(() => {
+                document.getElementById('loading-overlay').classList.add('hidden');
+            }, 800);
+        }
+        
+        function showSkeletonLoader(screenId) {
+            const screen = document.getElementById(screenId);
+            if (screen) {
+                const loading = screen.querySelector('[id$="-loading"]');
+                const content = screen.querySelector('[id$="-content"]');
+                if (loading && content) {
+                    loading.style.display = 'block';
+                    content.style.display = 'none';
+                }
+            }
+        }
+        
+        function hideSkeletonLoader(screenId) {
+            const screen = document.getElementById(screenId);
+            if (screen) {
+                const loading = screen.querySelector('[id$="-loading"]');
+                const content = screen.querySelector('[id$="-content"]');
+                if (loading && content) {
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        content.style.display = 'block';
+                        content.classList.add('fade-in');
+                    }, 400);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
