@@ -1329,6 +1329,66 @@
             flex: 1;
         }
 
+        /* Rest Timer Options */
+        .rest-time-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-lg);
+        }
+
+        .rest-time-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .rest-time-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .rest-time-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: var(--dark-gray);
+            border: 2px solid transparent;
+            border-radius: var(--radius-lg);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .rest-time-option:hover .rest-time-label {
+            background: var(--medium-gray);
+            border-color: var(--primary-orange);
+        }
+
+        .rest-time-option input[type="radio"]:checked + .rest-time-label {
+            background: var(--primary-orange);
+            border-color: var(--primary-orange);
+            color: var(--white);
+        }
+
+        .rest-time-label .time {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .rest-time-option input[type="radio"]:checked + .rest-time-label .time {
+            color: var(--white);
+        }
+
+        .rest-time-label .desc {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
         /* Sound Toggle */
         .sound-toggle {
             position: fixed;
@@ -1836,6 +1896,32 @@
                 <h3 class="mb-md">Achievements</h3>
                 <div class="achievement-grid" id="achievement-grid"></div>
             </div>
+
+            <!-- Progress Graph -->
+            <div class="progress-graph-container mt-xl" style="background: var(--dark-gray); padding: var(--spacing-lg); border-radius: var(--radius-xl); margin-bottom: var(--spacing-xl);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                    <h3 style="color: var(--beige); font-size: 20px; font-weight: 700;">Progress Chart</h3>
+                    <select id="graph-time-range" onchange="updateProgressGraph()" style="background: var(--medium-gray); color: var(--white); border: 1px solid var(--light-gray); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); font-size: 14px;">
+                        <option value="7">Last 7 days</option>
+                        <option value="14">Last 14 days</option>
+                        <option value="30">Last 30 days</option>
+                        <option value="all">All time</option>
+                    </select>
+                </div>
+                <div class="graph-wrapper" style="position: relative; height: 250px;">
+                    <canvas id="progress-chart" style="width: 100%; height: 100%;"></canvas>
+                </div>
+                <div class="graph-legend" style="display: flex; justify-content: center; gap: var(--spacing-lg); margin-top: var(--spacing-md);">
+                    <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                        <div style="width: 12px; height: 12px; background: var(--primary-orange); border-radius: 2px;"></div>
+                        <span style="font-size: 12px; color: var(--light-gray);">Push-ups</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: var(--spacing-xs);">
+                        <div style="width: 12px; height: 12px; background: var(--beige); border-radius: 2px;"></div>
+                        <span style="font-size: 12px; color: var(--light-gray);">Goal</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <nav class="nav">
@@ -1896,6 +1982,11 @@
 
             <div class="mt-xl">
                 <div class="settings-list">
+                    <div class="settings-item" onclick="showRestTimeSettings()">
+                        <span class="icon">⏱️</span>
+                        <span class="body">Rest Timer</span>
+                        <span class="chevron">›</span>
+                    </div>
                     <div class="settings-item" onclick="showNotificationSettings()">
                         <span class="icon">🔔</span>
                         <span class="body">Notifications</span>
@@ -1959,6 +2050,66 @@
         <div class="achievement-points" id="achievement-points" style="margin-top: var(--spacing-sm); font-size: 18px; font-weight: 600;">+50 pts</div>
     </div>
 
+    <!-- Rest Timer Settings Modal -->
+    <div id="rest-timer-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3 class="modal-title">Rest Timer Settings</h3>
+            <p class="body mb-lg">Choose how long you want to rest between sets</p>
+            
+            <div class="rest-time-options">
+                <label class="rest-time-option">
+                    <input type="radio" name="restTime" value="15" onchange="updateRestTime(15)">
+                    <span class="rest-time-label">
+                        <span class="time">15s</span>
+                        <span class="desc">Quick recovery</span>
+                    </span>
+                </label>
+                
+                <label class="rest-time-option">
+                    <input type="radio" name="restTime" value="30" onchange="updateRestTime(30)" checked>
+                    <span class="rest-time-label">
+                        <span class="time">30s</span>
+                        <span class="desc">Standard rest</span>
+                    </span>
+                </label>
+                
+                <label class="rest-time-option">
+                    <input type="radio" name="restTime" value="45" onchange="updateRestTime(45)">
+                    <span class="rest-time-label">
+                        <span class="time">45s</span>
+                        <span class="desc">Extended recovery</span>
+                    </span>
+                </label>
+                
+                <label class="rest-time-option">
+                    <input type="radio" name="restTime" value="60" onchange="updateRestTime(60)">
+                    <span class="rest-time-label">
+                        <span class="time">60s</span>
+                        <span class="desc">Full recovery</span>
+                    </span>
+                </label>
+                
+                <label class="rest-time-option">
+                    <input type="radio" name="restTime" value="custom" onchange="showCustomRestTime()">
+                    <span class="rest-time-label">
+                        <span class="time">Custom</span>
+                        <span class="desc">Set your own time</span>
+                    </span>
+                </label>
+            </div>
+            
+            <div id="custom-rest-input" style="display: none; margin-top: var(--spacing-md);">
+                <input type="number" id="custom-rest-value" min="5" max="300" placeholder="Enter seconds (5-300)" 
+                       class="form-input" style="width: 100%; padding: var(--spacing-md); border-radius: var(--radius-md); border: 1px solid var(--light-gray);">
+            </div>
+            
+            <div class="modal-actions" style="margin-top: var(--spacing-lg);">
+                <button class="btn btn-secondary" onclick="closeRestTimerModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveRestTimerSettings()">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Points Popup -->
     <div class="points-popup" id="points-popup" style="display: none;">
         +100 pts!
@@ -1991,6 +2142,7 @@
             startDate: null,
             soundEnabled: false,
             currentSet: 1,
+            restDuration: 30, // default 30 seconds
             totalSets: 3,
             setProgress: [],
             restTimerInterval: null,
@@ -2123,6 +2275,12 @@
         function initApp() {
             loadSoundPreference();
             loadPoints();
+            
+            // Load saved rest duration
+            const savedRestDuration = localStorage.getItem('gymhouse_rest_duration');
+            if (savedRestDuration) {
+                APP_STATE.restDuration = parseInt(savedRestDuration);
+            }
             
             // Hide loading overlay after a brief delay
             setTimeout(() => {
@@ -2485,7 +2643,7 @@
         }
 
         function startRestTimer() {
-            const restDuration = 30; // seconds
+            const restDuration = APP_STATE.restDuration || 30; // Use custom duration or default
             let timeRemaining = restDuration;
             
             document.getElementById('rest-timer').classList.add('active');
@@ -2546,6 +2704,7 @@
 
         function endRest() {
             document.getElementById('rest-timer').classList.remove('active');
+            document.getElementById('rest-timer').style.display = 'none';
             document.getElementById('progress-circle').style.display = 'flex';
             document.getElementById('motivation-card').style.display = 'none';
             document.getElementById('count-button').disabled = false;
@@ -2648,6 +2807,157 @@
             
             // Update achievements display
             updateAchievementsDisplay();
+            
+            // Update progress graph
+            updateProgressGraph();
+        }
+
+        function updateProgressGraph() {
+            const canvas = document.getElementById('progress-chart');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const timeRange = document.getElementById('graph-time-range').value;
+            
+            // Get data for the selected time range
+            const data = getProgressData(timeRange);
+            if (data.labels.length === 0) {
+                // No data to display
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.textAlign = 'center';
+                ctx.font = '16px Inter';
+                ctx.fillText('No data available', canvas.width / 2, canvas.height / 2);
+                return;
+            }
+            
+            // Set canvas size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const padding = 40;
+            const graphWidth = canvas.width - padding * 2;
+            const graphHeight = canvas.height - padding * 2;
+            
+            // Calculate scales
+            const maxValue = Math.max(...data.values, ...data.goals) * 1.1;
+            const xStep = graphWidth / (data.labels.length - 1 || 1);
+            const yScale = graphHeight / maxValue;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines
+            for (let i = 0; i <= 5; i++) {
+                const y = padding + (graphHeight / 5) * i;
+                ctx.beginPath();
+                ctx.moveTo(padding, y);
+                ctx.lineTo(canvas.width - padding, y);
+                ctx.stroke();
+                
+                // Y-axis labels
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'right';
+                const value = Math.round(maxValue - (maxValue / 5) * i);
+                ctx.fillText(value.toString(), padding - 10, y + 4);
+            }
+            
+            // Draw axes
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.stroke();
+            
+            // Draw goal line
+            ctx.strokeStyle = '#D4C4B0';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            for (let i = 0; i < data.goals.length; i++) {
+                const x = padding + i * xStep;
+                const y = canvas.height - padding - (data.goals[i] * yScale);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            ctx.setLineDash([]);
+            
+            // Draw actual values line
+            ctx.strokeStyle = '#FF6B35';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let i = 0; i < data.values.length; i++) {
+                const x = padding + i * xStep;
+                const y = canvas.height - padding - (data.values[i] * yScale);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            
+            // Draw data points
+            ctx.fillStyle = '#FF6B35';
+            for (let i = 0; i < data.values.length; i++) {
+                const x = padding + i * xStep;
+                const y = canvas.height - padding - (data.values[i] * yScale);
+                ctx.beginPath();
+                ctx.arc(x, y, 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Draw x-axis labels
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.font = '12px Inter';
+            ctx.textAlign = 'center';
+            
+            const labelStep = Math.ceil(data.labels.length / 7); // Show max 7 labels
+            for (let i = 0; i < data.labels.length; i += labelStep) {
+                const x = padding + i * xStep;
+                const y = canvas.height - padding + 20;
+                ctx.fillText(data.labels[i], x, y);
+            }
+        }
+
+        function getProgressData(days) {
+            const endDate = new Date();
+            const startDate = new Date();
+            
+            if (days === 'all') {
+                // Get all data
+                const sortedDates = Object.keys(APP_STATE.dailyProgress).sort();
+                if (sortedDates.length === 0) return { labels: [], values: [], goals: [] };
+                
+                startDate.setTime(new Date(sortedDates[0]).getTime());
+            } else {
+                startDate.setDate(endDate.getDate() - parseInt(days) + 1);
+            }
+            
+            const labels = [];
+            const values = [];
+            const goals = [];
+            
+            const currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                const dateKey = formatDateKey(currentDate);
+                const progress = APP_STATE.dailyProgress[dateKey];
+                
+                if (progress) {
+                    labels.push(currentDate.getDate() + '/' + (currentDate.getMonth() + 1));
+                    values.push(progress.completed || 0);
+                    goals.push(progress.target || 0);
+                }
+                
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return { labels, values, goals };
         }
 
         function updateCalendar() {
@@ -3051,23 +3361,56 @@ Transform your strength with Scandinavian discipline! 🇸🇪
         }
 
         function fallbackShare(text) {
-            // Copy to clipboard
+            // Try clipboard first
             navigator.clipboard.writeText(text).then(() => {
-                showModal(
-                    '📋 Copied to Clipboard!',
-                    'Your progress has been copied to the clipboard. Share it on your favorite social media!',
-                    null,
-                    'Great!'
-                );
+                // Show enhanced share modal with social buttons
+                showShareModal(text, true);
             }).catch(() => {
-                // If clipboard fails, show text in modal
-                showModal(
-                    '📱 Share Your Progress',
-                    text,
-                    null,
-                    'Copy Manually'
-                );
+                // If clipboard fails, show modal with manual copy option
+                showShareModal(text, false);
             });
+        }
+
+        function showShareModal(text, copiedToClipboard) {
+            const modal = document.getElementById('modal');
+            const encodedText = encodeURIComponent(text);
+            const encodedUrl = encodeURIComponent(window.location.href);
+            
+            const socialButtons = `
+                <div style="display: flex; gap: var(--spacing-md); justify-content: center; margin-top: var(--spacing-lg);">
+                    <a href="https://twitter.com/intent/tweet?text=${encodedText}" 
+                       target="_blank" 
+                       style="padding: var(--spacing-md) var(--spacing-lg); background: #1DA1F2; color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600;">
+                        Share on X
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}" 
+                       target="_blank"
+                       style="padding: var(--spacing-md) var(--spacing-lg); background: #1877F2; color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600;">
+                        Share on Facebook
+                    </a>
+                    <a href="https://wa.me/?text=${encodedText}" 
+                       target="_blank"
+                       style="padding: var(--spacing-md) var(--spacing-lg); background: #25D366; color: white; text-decoration: none; border-radius: var(--radius-md); font-weight: 600;">
+                        WhatsApp
+                    </a>
+                </div>
+            `;
+            
+            const messageContent = copiedToClipboard 
+                ? `<p style="color: var(--success-green); margin-bottom: var(--spacing-md);">✓ Copied to clipboard!</p>
+                   <p class="body">Share your progress on social media:</p>
+                   ${socialButtons}`
+                : `<textarea style="width: 100%; height: 150px; padding: var(--spacing-md); border-radius: var(--radius-md); background: var(--dark-gray); color: var(--white); border: 1px solid var(--light-gray); margin-bottom: var(--spacing-md);" readonly>${text}</textarea>
+                   <p class="body">Copy the text above or share directly:</p>
+                   ${socialButtons}`;
+            
+            document.getElementById('modal-title').innerHTML = '📱 Share Your Progress';
+            document.getElementById('modal-message').innerHTML = messageContent;
+            document.getElementById('modal-actions').innerHTML = `
+                <button class="btn btn-primary" onclick="closeModal()">Done</button>
+            `;
+            
+            modal.style.display = 'flex';
         }
 
         function showCompletionModal() {
@@ -3163,6 +3506,71 @@ Transform your strength with Scandinavian discipline! 🇸🇪
                 'Transform your fitness with discipline and dedication.\n\nVisit gymhouse.es for more information.\n\nInstagram: @gymhouse.es',
                 null
             );
+        }
+
+        // Rest Timer Settings Functions
+        function showRestTimeSettings() {
+            const modal = document.getElementById('rest-timer-modal');
+            modal.style.display = 'flex';
+            
+            // Set current rest duration in the radio buttons
+            const currentDuration = APP_STATE.restDuration || 30;
+            const radios = document.querySelectorAll('input[name="restTime"]');
+            let foundMatch = false;
+            
+            radios.forEach(radio => {
+                if (radio.value === currentDuration.toString()) {
+                    radio.checked = true;
+                    foundMatch = true;
+                } else {
+                    radio.checked = false;
+                }
+            });
+            
+            // If no match, it's a custom value
+            if (!foundMatch && currentDuration !== 15 && currentDuration !== 30 && currentDuration !== 45 && currentDuration !== 60) {
+                document.querySelector('input[value="custom"]').checked = true;
+                document.getElementById('custom-rest-input').style.display = 'block';
+                document.getElementById('custom-rest-value').value = currentDuration;
+            }
+        }
+
+        function closeRestTimerModal() {
+            document.getElementById('rest-timer-modal').style.display = 'none';
+            document.getElementById('custom-rest-input').style.display = 'none';
+        }
+
+        function updateRestTime(seconds) {
+            APP_STATE.restDuration = seconds;
+            document.getElementById('custom-rest-input').style.display = 'none';
+        }
+
+        function showCustomRestTime() {
+            document.getElementById('custom-rest-input').style.display = 'block';
+            document.getElementById('custom-rest-value').focus();
+        }
+
+        function saveRestTimerSettings() {
+            const customInput = document.getElementById('custom-rest-value');
+            const customRadio = document.querySelector('input[value="custom"]');
+            
+            if (customRadio.checked && customInput.value) {
+                const customValue = parseInt(customInput.value);
+                if (customValue >= 5 && customValue <= 300) {
+                    APP_STATE.restDuration = customValue;
+                } else {
+                    alert('Please enter a value between 5 and 300 seconds');
+                    return;
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('gymhouse_rest_duration', APP_STATE.restDuration.toString());
+            
+            closeRestTimerModal();
+            
+            // Show confirmation
+            showPointsAnimation(`Rest timer set to ${APP_STATE.restDuration}s`);
         }
 
         function confirmReset() {
