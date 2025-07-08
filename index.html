@@ -1749,6 +1749,17 @@
                     • Breathe out on the way up
                 </p>
             </div>
+
+            <!-- Daily Motivation Card -->
+            <div class="card motivation-card" id="motivation-card" style="display: none;">
+                <h3>💭 Daily Motivation</h3>
+                <p class="body mt-sm" id="daily-quote" style="font-style: italic; text-align: center; color: var(--beige);">
+                    "Loading inspiration..."
+                </p>
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('motivation-card').style.display='none'" style="margin-top: 16px;">
+                    Close
+                </button>
+            </div>
             </div>
         </div>
 
@@ -2045,6 +2056,25 @@
             }
         };
 
+
+        // Motivational Quotes
+        const MOTIVATIONAL_QUOTES = [
+            "Discipline is the bridge between goals and accomplishment.",
+            "The strongest people are not those who show strength in front of us, but those who win battles we know nothing about.",
+            "Success isn't given. It's earned in the gym, in the field, in every quiet moment when you choose to push harder.",
+            "Your only limit is you. Push beyond it.",
+            "Scandinavian strength comes from within. Trust the process.",
+            "Every rep builds character. Every set builds discipline.",
+            "The pain you feel today will be the strength you feel tomorrow.",
+            "Champions are made when nobody's watching.",
+            "Consistency beats intensity. Show up every day.",
+            "Your body can do it. It's your mind you need to convince.",
+            "The gym is where legends are born and limits are broken.",
+            "Strength doesn't come from what you can do. It comes from overcoming what you thought you couldn't.",
+            "Progress is impossible without discipline.",
+            "The only bad workout is the one that didn't happen.",
+            "Nordic warriors weren't born strong. They were forged through discipline."
+        ];
 
         // Achievements Definition
         const ACHIEVEMENTS_DEF = {
@@ -2463,6 +2493,13 @@
             
             playSound('rest');
             
+            // Show motivational quote during rest
+            setTimeout(() => {
+                const quote = getMotivationalQuote();
+                document.getElementById('daily-quote').textContent = `"${quote}"`;
+                document.getElementById('motivation-card').style.display = 'block';
+            }, 2000);
+            
             // Hide the normal progress display
             document.getElementById('progress-circle').style.display = 'none';
             
@@ -2510,6 +2547,7 @@
         function endRest() {
             document.getElementById('rest-timer').classList.remove('active');
             document.getElementById('progress-circle').style.display = 'flex';
+            document.getElementById('motivation-card').style.display = 'none';
             document.getElementById('count-button').disabled = false;
             APP_STATE.currentSet++;
             updateChallengeScreen();
@@ -2929,7 +2967,7 @@
         }
 
         // Modal Functions
-        function showModal(title, message, onConfirm, cancelText = 'Cancel') {
+        function showModal(title, message, onConfirm, cancelText = 'Cancel', confirmText = 'Confirm') {
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').textContent = message;
             document.getElementById('modal').classList.add('active');
@@ -2937,9 +2975,12 @@
             const confirmBtn = document.getElementById('modal-confirm');
             const cancelBtn = document.querySelector('.modal-actions .btn-secondary');
             
-            // Update cancel button text
+            // Update button text
             if (cancelBtn) {
                 cancelBtn.textContent = cancelText;
+            }
+            if (confirmBtn) {
+                confirmBtn.textContent = confirmText;
             }
             
             if (onConfirm) {
@@ -2957,12 +2998,85 @@
             document.getElementById('modal').classList.remove('active');
         }
 
+        // Motivational Quotes Function
+        function getMotivationalQuote() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            // Use day of year to get consistent daily quote
+            const quoteIndex = dayOfYear % MOTIVATIONAL_QUOTES.length;
+            return MOTIVATIONAL_QUOTES[quoteIndex];
+        }
+
+        function showMotivationalQuote() {
+            const quote = getMotivationalQuote();
+            showModal(
+                '💭 Daily Motivation',
+                `"${quote}"`,
+                null,
+                'Let\'s Go!'
+            );
+        }
+
+        // Share Progress Function
+        function shareProgress() {
+            const stats = calculateStats();
+            const todayKey = formatDateKey(new Date());
+            const todayProgress = APP_STATE.dailyProgress[todayKey];
+            
+            const shareText = `💪 Just crushed my Gymhouse push-up challenge!
+            
+🔥 Today: ${todayProgress ? todayProgress.completed : 0} push-ups completed
+📊 Streak: ${stats.currentStreak} days
+🏆 Total: ${stats.totalPushups} push-ups
+⭐ Points: ${APP_STATE.totalPoints}
+
+Transform your strength with Scandinavian discipline! 🇸🇪
+
+#GymhouseScandinavia #PushUpChallenge #FitnessGoals`;
+
+            if (navigator.share) {
+                // Use Web Share API if available
+                navigator.share({
+                    title: 'Gymhouse Push-Up Challenge',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(err => {
+                    console.log('Error sharing:', err);
+                    fallbackShare(shareText);
+                });
+            } else {
+                // Fallback for desktop browsers
+                fallbackShare(shareText);
+            }
+        }
+
+        function fallbackShare(text) {
+            // Copy to clipboard
+            navigator.clipboard.writeText(text).then(() => {
+                showModal(
+                    '📋 Copied to Clipboard!',
+                    'Your progress has been copied to the clipboard. Share it on your favorite social media!',
+                    null,
+                    'Great!'
+                );
+            }).catch(() => {
+                // If clipboard fails, show text in modal
+                showModal(
+                    '📱 Share Your Progress',
+                    text,
+                    null,
+                    'Copy Manually'
+                );
+            });
+        }
+
         function showCompletionModal() {
             showModal(
                 '💪 Challenge Complete!',
                 "Excellent work! You've crushed today's challenge. Keep building that Gymhouse strength!",
-                null,
-                'Done'
+                () => shareProgress(),
+                'Done',
+                'Share Progress'
             );
         }
 
