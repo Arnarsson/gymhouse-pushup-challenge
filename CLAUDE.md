@@ -205,24 +205,33 @@ function endRest() {
 - **Stats Dashboard**: Comprehensive progress tracking
 - **Achievement System**: Unlockable badges and rewards
 
-## Recent Enhancements (2025-07-08)
+## Recent Enhancements (Version 1.1.0 - July 8, 2025)
 
-### ✅ Implemented Features
-1. **Custom Rest Times**: User-configurable rest periods (15s, 30s, 45s, 60s, or custom 5-300s)
-   - Added settings option in Profile screen
-   - Persistent storage across sessions
-   - Visual feedback when changed
+### ✅ Major Features Added
+1. **Custom Rest Timer Settings** ⏱️
+   - User-configurable rest periods: 15s, 30s, 45s, 60s
+   - Custom timer option (5-300 seconds)
+   - New settings modal in Profile screen with radio button interface
+   - Persistent storage across browser sessions
+   - Visual confirmation when settings are saved
+   - Integrated with existing rest timer functionality
    
-2. **Progress Graphs**: Visual charts for historical data
-   - Canvas-based line chart showing push-ups vs goals
-   - Time range selector (7, 14, 30 days, all time)
-   - Responsive design with grid lines and labels
-   - Orange theme matching brand colors
+2. **Interactive Progress Charts** 📊
+   - Canvas-based line graph showing daily push-up progress vs goals
+   - Time range selector: Last 7, 14, 30 days, or all-time data
+   - Professional chart design with grid lines, axes, and legends
+   - Orange (#FF6B35) and beige (#D4C4B0) theme colors
+   - Responsive design that adapts to container size
+   - Real-time data updates when progress changes
+   - Located in Progress screen after achievements section
    
-3. **Enhanced Desktop Share**: Improved fallback for non-mobile browsers
-   - Social media share buttons (X/Twitter, Facebook, WhatsApp)
-   - Automatic clipboard copy with confirmation
-   - Manual copy option if clipboard fails
+3. **Enhanced Desktop Sharing** 📱
+   - Improved fallback for browsers without Web Share API
+   - Direct social media share buttons: X/Twitter, Facebook, WhatsApp
+   - Automatic clipboard copy with success confirmation
+   - Manual copy textarea if clipboard access fails
+   - URL encoding for proper social media integration
+   - Styled buttons matching app theme
 
 ## Future Enhancement Opportunities
 
@@ -289,7 +298,29 @@ git push origin main
 - **Deployment**: Vercel
 - **Issues**: Track via GitHub Issues
 
+## Latest Deployment
+
+### Version 1.1.0 - July 8, 2025
+- **GitHub**: https://github.com/Arnarsson/gymhouse-pushup-challenge
+- **Live URL**: https://gymhouse-pushup.vercel.app
+- **Commit**: ae73ec4 - "Add custom rest times, progress graphs, and enhanced share functionality"
+- **Status**: ✅ Deployed successfully with auto-deployment from main branch
+
+### Deployment Commands Used
+```bash
+git add -A
+git commit -m "Add custom rest times, progress graphs, and enhanced share functionality"
+git push origin main
+# Auto-deploys to Vercel
+```
+
+### Testing
+- ✅ Local testing: `open index.html` (self-contained app)
+- ✅ Production testing: https://gymhouse-pushup.vercel.app
+- ✅ PWA installation: Available on mobile and desktop
+- ✅ All new features functional in production
+
 ---
 
 Last Updated: 2025-07-08
-Version: 1.0.0
+Version: 1.1.0
